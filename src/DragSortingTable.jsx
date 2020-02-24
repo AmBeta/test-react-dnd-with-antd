@@ -1,8 +1,9 @@
 import React from 'react';
 import { Table } from 'antd';
-import { DragSource, DropTarget } from 'react-dnd';
+import { DragDropContextProvider, DragSource, DropTarget } from 'react-dnd';
 import update from 'immutability-helper';
 import DragDropContext from './DragDropContext';
+import HTML5 from 'react-dnd-html5-backend';
 import "./DragSortingTable.css";
 
 let dragingIndex = -1;
@@ -130,6 +131,7 @@ class DragSortingTable extends React.Component {
 
   render() {
     return (
+      // <DragDropContextProvider backend={HTML5}>
         <Table
           columns={columns}
           dataSource={this.state.data}
@@ -139,8 +141,10 @@ class DragSortingTable extends React.Component {
             moveRow: this.moveRow,
           })}
         />
+      // </DragDropContextProvider>
     );
   }
 }
 
+// export default DragSortingTable;
 export default DragDropContext(DragSortingTable);
