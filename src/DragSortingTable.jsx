@@ -1,3 +1,10 @@
+/**
+ * Solution Detail
+ * `DragDropContextProvider` uses the `backend` prop to make new backend instance.
+ * So every call of render will get a new instance of backend.
+ * Here we use the context api to get the backend instance reusable:
+ * Use `DragDropContext` to wrap the exported component(1) or the imported Table component(2).
+ */
 import React from 'react';
 import { Table } from 'antd';
 import { DragDropContextProvider, DragSource, DropTarget } from 'react-dnd';
@@ -5,6 +12,9 @@ import update from 'immutability-helper';
 import DragDropContext from './DragDropContext';
 import HTML5 from 'react-dnd-html5-backend';
 import "./DragSortingTable.css";
+
+/** Solution 2: Wrap the imported Table component. */
+const DndTable = DragDropContext(Table);
 
 let dragingIndex = -1;
 
@@ -132,7 +142,7 @@ class DragSortingTable extends React.Component {
   render() {
     return (
       // <DragDropContextProvider backend={HTML5}>
-        <Table
+        <DndTable
           columns={columns}
           dataSource={this.state.data}
           components={this.components}
@@ -146,5 +156,6 @@ class DragSortingTable extends React.Component {
   }
 }
 
-// export default DragSortingTable;
-export default DragDropContext(DragSortingTable);
+export default DragSortingTable;
+/** Solution 1: Wrap the exported component. */
+// export default DragDropContext(DragSortingTable);
